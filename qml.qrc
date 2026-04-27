@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>HomeForm.qml</file>
+        <file>SettingsForm.qml</file>
+        <file>ChevauxForm.qml</file>
+        <file>StocksForm.qml</file>
+        <file>NourritureForm.qml</file>
+        <file>AccesForm.qml</file>
+        <file>contribution_gallery.jpg</file>
+    </qresource>
+</RCC>

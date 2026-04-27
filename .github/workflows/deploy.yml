@@ -1,0 +1,61 @@
+name: Déploiement OTA Raspberry Pi
+
+# L'action se déclenche à chaque 'git push' sur la branche principale
+on:
+  push:
+    branches: [ "main", "master" ] # Modifie si ta branche s'appelle master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    # CRITIQUE : Donne les droits au robot GitHub de faire un commit !
+    permissions:
+      contents: write 
+
+    steps:
+    - name: 📥 1. Récupérer le code source
+      uses: actions/checkout@v3
+
+    - name: 🛠️ 2. Compiler pour Raspberry Pi (Émulation ARM64)
+      # On utilise un émulateur car les serveurs GitHub sont des PC classiques
+      uses: uraimo/run-on-arch-action@v2
+      with:
+        arch: aarch64
+        distro: ubuntu20.04
+        # On installe Qt dans le serveur virtuel
+        setup: |
+          apt-get update -y
+          apt-get install -y build-essential qt5-qmake qtbase5-dev qtdeclarative5-dev
+        # On compile !
+        run: |
+          echo "Lancement de qmake..."
+          qmake EcurieActiveNabou.pro
+          echo "Lancement de make..."
+          make
+
+    - name: 📦 3. Préparer la mise à jour (OTA)
+      run: |
+        echo "Création du dossier de release..."
+        mkdir -p release
+        # On déplace l'exécutable généré dans le dossier release
+        cp EcurieActiveNabou release/
+        
+        # On génère un numéro de version automatique basé sur la date (ex: 2026.04.24-1030)
+        date +"%Y.%m.%d-%H%M" > release/version.txt
+        
+        echo "Version générée :"
+        cat release/version.txt
+
+    - name: 🚀 4. Pousser la mise à jour sur GitHub
+      run: |
+        # On configure l'identité du robot GitHub
+        git config --global user.name "GitHub Actions Bot"
+        git config --global user.email "actions@github.com"
+        
+        # On ajoute UNIQUEMENT le dossier release à la sauvegarde
+        git add release/EcurieActiveNabou release/version.txt
+        
+        # On commit et on push vers ton dépôt
+        git commit -m "🤖 Auto-Build: Nouvelle version OTA générée" || echo "Rien à commiter"
+        git push
