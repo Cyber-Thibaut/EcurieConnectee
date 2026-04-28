@@ -25,8 +25,8 @@ jobs:
         distro: ubuntu20.04
         # On installe Qt dans le serveur virtuel
         setup: |
-          apt-get update -y
-          apt-get install -y build-essential qt5-qmake qtbase5-dev qtdeclarative5-dev
+          sudo apt-get update -y
+          sudo apt-get install -y build-essential qt5-qmake qtbase5-dev qtdeclarative5-dev
         # On compile !
         run: |
           echo "Lancement de qmake..."
