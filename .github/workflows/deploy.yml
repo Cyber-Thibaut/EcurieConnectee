@@ -20,7 +20,7 @@ jobs:
     - name: 🛠️ 2. Compiler pour Raspberry Pi (Émulation ARM64)
       uses: uraimo/run-on-arch-action@v2
       with:
-        arch: aarmv7
+        arch: armv7
         distro: bullseye
         
         # On met TOUTES les commandes dans le "run" (à l'intérieur de la Raspberry virtuelle)
