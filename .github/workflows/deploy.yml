@@ -20,7 +20,7 @@ jobs:
     - name: 🛠️ 2. Compiler pour Raspberry Pi (Émulation ARM64)
       uses: uraimo/run-on-arch-action@v2
       with:
-        arch: aarch64
+        arch: aarmv7
         distro: ubuntu22.04
         
         # On met TOUTES les commandes dans le "run" (à l'intérieur de la Raspberry virtuelle)
