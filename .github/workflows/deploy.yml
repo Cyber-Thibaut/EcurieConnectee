@@ -14,17 +14,18 @@ jobs:
       contents: write 
 
     steps:
-    - name: 📥 1. Récupérer le code source
+    - name: 1. Récupérer le code source
       uses: actions/checkout@v3
 
-    - name: 🛠️ 2. Compiler pour Raspberry Pi (Émulation ARM64)
+    - name: 2. Compiler pour Raspberry Pi (Émulation ARM64)
       # On utilise un émulateur car les serveurs GitHub sont des PC classiques
       uses: uraimo/run-on-arch-action@v2
       with:
         arch: aarch64
         distro: ubuntu20.04
         # On installe Qt dans le serveur virtuel
-        setup: |
+        install: |
+          export DEBIAN_FRONTEND=noninteractive
           sudo apt-get update -y
           sudo apt-get install -y build-essential qt5-qmake qtbase5-dev qtdeclarative5-dev
         # On compile !
@@ -40,14 +41,14 @@ jobs:
           cd ..
           
           # --- PARTIE B : COMPILATION DE TON PROJET ---
-          echo "🚀 Lancement de qmake pour EcurieActive..."
+          echo "Lancement de qmake pour EcurieActive..."
           # On utilise le chemin absolu pour être sûr à 100% de le trouver
           /usr/lib/qt5/bin/qmake EcurieActiveNabou.pro
           
           echo "Lancement de make..."
           make -j4
 
-    - name: 📦 3. Préparer la mise à jour (OTA)
+    - name: 3. Préparer la mise à jour (OTA)
       run: |
         echo "Création du dossier de release..."
         mkdir -p release
@@ -60,7 +61,7 @@ jobs:
         echo "Version générée :"
         cat release/version.txt
 
-    - name: 🚀 4. Pousser la mise à jour sur GitHub
+    - name: 4. Pousser la mise à jour sur GitHub
       run: |
         # On configure l'identité du robot GitHub
         git config --global user.name "GitHub Actions Bot"
