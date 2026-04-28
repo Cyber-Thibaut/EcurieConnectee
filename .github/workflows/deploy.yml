@@ -37,7 +37,7 @@ jobs:
           cd qtmqtt
           git checkout 5.15
           /usr/lib/qt5/bin/qmake
-          make -j4
+          make
           make install
           cd ..
           
@@ -46,7 +46,7 @@ jobs:
           /usr/lib/qt5/bin/qmake sans_titre1.pro
           
           echo "Lancement de make..."
-          make -j4
+          make
 
     - name: 3. Préparer la mise à jour (OTA)
       run: |
