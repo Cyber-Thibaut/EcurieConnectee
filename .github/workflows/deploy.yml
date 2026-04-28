@@ -15,7 +15,7 @@ jobs:
 
     steps:
     - name: 1. Récupérer le code source
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: 🛠️ 2. Compiler pour Raspberry Pi (Émulation ARM64)
       uses: uraimo/run-on-arch-action@v2
