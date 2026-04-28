@@ -57,7 +57,7 @@ Page {
                     text: "Vider"
                     background: Rectangle { color: "transparent"; border.color: "#f87272"; radius: 4; border.width: 1 }
                     contentItem: Text { text: parent.text; color: "#f87272"; font.bold: true }
-                    onClicked: terminalLog.text = "> En attente de signaux...\n"
+                    onClicked: terminalLog.text = "> IP de la machine détectée :" << localIpAddress;
                 }
 
                 Button {
