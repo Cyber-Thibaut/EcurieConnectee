@@ -21,7 +21,7 @@ jobs:
       uses: uraimo/run-on-arch-action@v2
       with:
         arch: aarmv7
-        distro: ubuntu22.04
+        distro: bullseye
         
         # On met TOUTES les commandes dans le "run" (à l'intérieur de la Raspberry virtuelle)
         run: |
