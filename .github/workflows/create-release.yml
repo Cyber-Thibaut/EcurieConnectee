@@ -1,0 +1,48 @@
+name: 🚀 Livraison Officielle (Release)
+
+on:
+  push:
+    tags:
+      - 'v*' # Ne se déclenche que sur un tag v1.0, v2.1, etc.
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    permissions:
+      contents: write 
+
+    steps:
+    - name: 📥 1. Récupérer le code source
+      uses: actions/checkout@v4
+
+    - name: 🏗️ 2. Compilation ARM32 (Buster)
+      uses: uraimo/run-on-arch-action@v2
+      with:
+        arch: armv7
+        distro: buster
+        run: |
+          export DEBIAN_FRONTEND=noninteractive
+          echo "deb http://archive.debian.org/debian buster main" > /etc/apt/sources.list
+          echo "deb http://archive.debian.org/debian-security buster/updates main" >> /etc/apt/sources.list
+          apt-get -o Acquire::Check-Valid-Until=false update -y
+          apt-get install -y --allow-unauthenticated build-essential qtbase5-dev qtbase5-private-dev qtbase5-dev-tools qt5-qmake qtdeclarative5-dev libqt5charts5-dev git
+          
+          git clone https://github.com/qt/qtmqtt.git && cd qtmqtt && git checkout 5.11
+          /usr/lib/qt5/bin/qmake && make && make install && cd ..
+          
+          /usr/lib/qt5/bin/qmake && make
+
+    - name: 🚀 3. Créer la Release GitHub
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.ref_name }}
+        name: Version Officielle ${{ github.ref_name }}
+        files: EcurieActiveNabou
+        body: |
+          🐴 Mise à jour stable pour l'écurie active.
+          Version : ${{ github.ref_name }}
+          Date : ${{ github.event.head_commit.timestamp }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,41 @@
+name: 🛠️ Vérification Compilation (Artifact)
+
+on:
+  push:
+    branches: [ "main" ] # Déclenchement sur chaque push normal
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    
+    steps:
+    - name: 📥 1. Récupérer le code source
+      uses: actions/checkout@v4
+
+    - name: 🏗️ 2. Compilation ARM32 (Buster)
+      uses: uraimo/run-on-arch-action@v2
+      with:
+        arch: armv7
+        distro: buster
+        run: |
+          export DEBIAN_FRONTEND=noninteractive
+          echo "deb http://archive.debian.org/debian buster main" > /etc/apt/sources.list
+          echo "deb http://archive.debian.org/debian-security buster/updates main" >> /etc/apt/sources.list
+          apt-get -o Acquire::Check-Valid-Until=false update -y
+          apt-get install -y --allow-unauthenticated build-essential qtbase5-dev qtbase5-private-dev qtbase5-dev-tools qt5-qmake qtdeclarative5-dev libqt5charts5-dev git
+          
+          # MQTT 5.11
+          git clone https://github.com/qt/qtmqtt.git && cd qtmqtt && git checkout 5.11
+          /usr/lib/qt5/bin/qmake && make && make install && cd ..
+          
+          # Projet
+          /usr/lib/qt5/bin/qmake && make
+
+    - name: 🎒 3. Sauvegarder l'exécutable (Artifact)
+      uses: actions/upload-artifact@v4
+      with:
+        name: Executable-TEST-Raspberry
+        path: EcurieActiveNabou
+        retention-days: 5
