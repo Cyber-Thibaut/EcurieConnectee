@@ -17,20 +17,21 @@ jobs:
     - name: 1. Récupérer le code source
       uses: actions/checkout@v3
 
-    - name: 2. Compiler pour Raspberry Pi (Émulation ARM64)
-      # On utilise un émulateur car les serveurs GitHub sont des PC classiques
+    - name: 🛠️ 2. Compiler pour Raspberry Pi (Émulation ARM64)
       uses: uraimo/run-on-arch-action@v2
       with:
         arch: aarch64
         distro: ubuntu20.04
-        # On installe Qt dans le serveur virtuel
-        install: |
-          export DEBIAN_FRONTEND=noninteractive
-          sudo apt-get update -y
-          sudo apt-get install -y build-essential qt5-qmake qtbase5-dev qtdeclarative5-dev
-        # On compile !
+        
+        # On met TOUTES les commandes dans le "run" (à l'intérieur de la Raspberry virtuelle)
         run: |
-          # --- PARTIE A : FABRICATION DE MQTT POUR LA RASPBERRY ---
+          # --- PARTIE 0 : INSTALLATION DES OUTILS ---
+          export DEBIAN_FRONTEND=noninteractive
+          echo "📥 Installation des dépendances système..."
+          sudo apt-get update -y
+          sudo apt-get install -y build-essential qtbase5-dev qtbase5-dev-tools qt5-qmake qtdeclarative5-dev git
+
+          # --- PARTIE A : FABRICATION DE MQTT ---
           echo "🛠️ Téléchargement et compilation du module MQTT..."
           git clone https://github.com/qt/qtmqtt.git
           cd qtmqtt
@@ -41,8 +42,7 @@ jobs:
           cd ..
           
           # --- PARTIE B : COMPILATION DE TON PROJET ---
-          echo "Lancement de qmake pour EcurieActive..."
-          # On utilise le chemin absolu pour être sûr à 100% de le trouver
+          echo "🚀 Lancement de qmake pour EcurieActive..."
           /usr/lib/qt5/bin/qmake EcurieActiveNabou.pro
           
           echo "Lancement de make..."
