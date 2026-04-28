@@ -43,7 +43,7 @@ jobs:
           
           # --- PARTIE B : COMPILATION DE TON PROJET ---
           echo "🚀 Lancement de qmake pour EcurieActive..."
-          /usr/lib/qt5/bin/qmake sans_titre1.pro
+          /usr/lib/qt5/bin/qmake
           
           echo "Lancement de make..."
           make
