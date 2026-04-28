@@ -19,19 +19,23 @@ jobs:
     - name: 1. Récupérer le code source
       uses: actions/checkout@v4
 
-    - name: 🛠️ 2. Compiler pour Raspberry Pi (Émulation ARM64)
+    - name: 🛠️ 2. Compiler pour Raspberry Pi (Émulation ARM32)
       uses: uraimo/run-on-arch-action@v2
       with:
         arch: armv7
         distro: buster
         
-        # On met TOUTES les commandes dans le "run" (à l'intérieur de la Raspberry virtuelle)
         run: |
-          # --- PARTIE 0 : INSTALLATION DES OUTILS ---
           export DEBIAN_FRONTEND=noninteractive
+          
+          echo "🗄️ Configuration des archives Debian pour le vieux système..."
+          echo "deb http://archive.debian.org/debian buster main" > /etc/apt/sources.list
+          echo "deb http://archive.debian.org/debian-security buster/updates main" >> /etc/apt/sources.list
+          
           echo "📥 Installation des dépendances système..."
-          apt-get update -y
-          apt-get install -y build-essential qtbase5-dev qtbase5-private-dev qtbase5-dev-tools qt5-qmake qtdeclarative5-dev libqt5charts5-dev git
+          # L'option '-o' sert à empêcher apt de paniquer face à un système périmé
+          apt-get -o Acquire::Check-Valid-Until=false update -y
+          apt-get install -y --allow-unauthenticated build-essential qtbase5-dev qtbase5-private-dev qtbase5-dev-tools qt5-qmake qtdeclarative5-dev libqt5charts5-dev git
 
           # --- PARTIE A : FABRICATION DE MQTT ---
           echo "🛠️ Téléchargement et compilation du module MQTT..."
