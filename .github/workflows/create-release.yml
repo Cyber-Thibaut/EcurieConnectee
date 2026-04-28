@@ -52,12 +52,13 @@ jobs:
             /usr/lib/qt5/bin/qmake
             make
 
-            # 3. EXTRACTION DES FICHIERS (C'est ici la modif !)
-            # On sort la bibliothèque du dossier système pour la mettre avec l'exécutable
-            echo "Extraction de la bibliothèque MQTT pour la Release..."
-            cp /usr/local/lib/libQt5Mqtt.so.5.11.3 .
-            # On crée le lien symbolique pour que le programme la reconnaisse
-            ln -s libQt5Mqtt.so.5.11.3 libQt5Mqtt.so.5
+            # 3. EXTRACTION DES FICHIERS
+            echo "Extraction de la bibliotheque MQTT pour la Release..."
+            # On utilise -P pour bien copier les liens symboliques tels quels
+            cp -P qtmqtt/lib/libQt5Mqtt.so.5* .
+            
+            # On verifie ce qu'on a extrait pour le log GitHub
+            ls -lh libQt5Mqtt.so.5*
 
       - name: Publication de la Release GitHub
         uses: softprops/action-gh-release@v1
@@ -67,8 +68,7 @@ jobs:
           # On demande à GitHub de prendre l'exécutable ET les fichiers libQt5Mqtt
           files: |
             EcurieActiveNabou
-            libQt5Mqtt.so.5.11.3
-            libQt5Mqtt.so.5
+            libQt5Mqtt.so.5*
           generate_release_notes: true
           body: |
             Release automatisee pour architecture ARMv7 (Raspberry Pi OS Legacy).

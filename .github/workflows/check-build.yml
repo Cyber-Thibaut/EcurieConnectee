@@ -51,10 +51,13 @@ jobs:
             /usr/lib/qt5/bin/qmake
             make
 
-            echo "Extraction de la bibliothèque MQTT pour la Release..."
-            cp /usr/local/lib/libQt5Mqtt.so.5.11.3 .
-            # On crée le lien symbolique pour que le programme la reconnaisse
-            ln -s libQt5Mqtt.so.5.11.3 libQt5Mqtt.so.5
+            # 3. EXTRACTION DES FICHIERS
+            echo "Extraction de la bibliotheque MQTT pour la Release..."
+            # On utilise -P pour bien copier les liens symboliques tels quels
+            cp -P qtmqtt/lib/libQt5Mqtt.so.5* .
+            
+            # On verifie ce qu'on a extrait pour le log GitHub
+            ls -lh libQt5Mqtt.so.5*
 
       - name: Archivage du binaire de test
         uses: actions/upload-artifact@v4
