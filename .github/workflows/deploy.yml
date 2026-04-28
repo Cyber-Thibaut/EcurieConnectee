@@ -3,7 +3,9 @@ name: Déploiement OTA Raspberry Pi
 # L'action se déclenche à chaque 'git push' sur la branche principale
 on:
   push:
-    branches: [ "main", "master" ] # Modifie si ta branche s'appelle master
+    branches: [ "main" ] # (ou "master" selon ce que tu as)
+    tags:
+      - 'v*'
 
 jobs:
   build-and-deploy:
@@ -21,7 +23,7 @@ jobs:
       uses: uraimo/run-on-arch-action@v2
       with:
         arch: armv7
-        distro: bullseye
+        distro: buster
         
         # On met TOUTES les commandes dans le "run" (à l'intérieur de la Raspberry virtuelle)
         run: |
@@ -35,7 +37,7 @@ jobs:
           echo "🛠️ Téléchargement et compilation du module MQTT..."
           git clone https://github.com/qt/qtmqtt.git
           cd qtmqtt
-          git checkout 5.15
+          git checkout 5.11
           /usr/lib/qt5/bin/qmake
           make
           make install
@@ -62,13 +64,13 @@ jobs:
         cat release/version.txt
 
     - name: 🚀 4. Créer une Release GitHub
+      if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v1
       with:
-        tag_name: v${{ github.run_number }}
-        name: Release v${{ github.run_number }}
+        tag_name: ${{ github.ref_name }}
+        name: Version Officielle ${{ github.ref_name }}
         files: release/EcurieActiveNabou
         body: |
-          Compilation automatique pour Raspberry Pi.
-          Version générée le : ${{ github.event.head_commit.timestamp }}
+          🐴 Mise à jour EcurieActive - Version ${{ github.ref_name }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
