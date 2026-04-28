@@ -61,15 +61,14 @@ jobs:
         echo "Version générée :"
         cat release/version.txt
 
-    - name: 4. Pousser la mise à jour sur GitHub
-      run: |
-        # On configure l'identité du robot GitHub
-        git config --global user.name "GitHub Actions Bot"
-        git config --global user.email "actions@github.com"
-        
-        # On ajoute UNIQUEMENT le dossier release à la sauvegarde
-        git add release/EcurieActiveNabou release/version.txt
-        
-        # On commit et on push vers ton dépôt
-        git commit -m "🤖 Auto-Build: Nouvelle version OTA générée" || echo "Rien à commiter"
-        git push
+    - name: 🚀 4. Créer une Release GitHub
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v${{ github.run_number }}
+        name: Release v${{ github.run_number }}
+        files: release/EcurieActiveNabou
+        body: |
+          Compilation automatique pour Raspberry Pi.
+          Version générée le : ${{ github.event.head_commit.timestamp }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
