@@ -21,7 +21,7 @@ jobs:
       uses: uraimo/run-on-arch-action@v2
       with:
         arch: aarch64
-        distro: ubuntu20.04
+        distro: ubuntu22.04
         
         # On met TOUTES les commandes dans le "run" (à l'intérieur de la Raspberry virtuelle)
         run: |
