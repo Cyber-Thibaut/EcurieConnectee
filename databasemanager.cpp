@@ -34,7 +34,7 @@ DatabaseManager::~DatabaseManager()
 
 bool DatabaseManager::connectToDatabase(const QString &host, const QString &dbName, const QString &user, const QString &password)
 {
-    m_db = QSqlDatabase::addDatabase("QMARIADB");
+    m_db = QSqlDatabase::addDatabase("QMYSQL");
     m_db.setHostName(host);
     m_db.setDatabaseName(dbName);
     m_db.setUserName(user);

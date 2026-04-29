@@ -1,5 +1,5 @@
 import QtQuick 2.11
-import QtQuick.Controls 2.11
+import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.15
 
 Page {
@@ -45,8 +45,8 @@ Page {
                 // --- NOUVEAU BOUTON : RESET NOURRITURE ---
                 Button {
                     text: "🔄 Reset Nourriture"
-                    background: Rectangle { color: "#4b6bfb"; radius: 4 }
-                    contentItem: Text { text: parent.text; color: "white"; font.bold: true; padding: 8 }
+                    background: Rectangle { color: "transparent"; border.color: "#4b6bfb"; radius: 4; border.width: 1 }
+                    contentItem: Text { text: parent.text; color: "white"; font.bold: true}
                     onClicked: {
                         dbManager.resetAllFoodAccess()
                         terminalLog.text += "\n[SYSTÈME] Réinitialisation de tous les accès nourriture effectuée.\n"
