@@ -72,7 +72,7 @@ Page {
                 Layout.fillWidth: true; Layout.fillHeight: true; clip: true
                 TextArea {
                     id: terminalLog
-                    text: "Console de maintenance active..."
+                    text: "IP de la machine détectée :" << localIpAddress;
                     color: "#c3e88d"; font.family: "Courier"; font.pixelSize: 13; readOnly: true; background: null
                 }
             }
