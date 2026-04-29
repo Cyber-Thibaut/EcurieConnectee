@@ -6,6 +6,7 @@ ApplicationWindow {
     visible: true
     width: 800
     height: 480
+    color: "#f2f2f2"
     title: "Écurie Active - IHM Embarquée"
 
     Component.onCompleted: {
