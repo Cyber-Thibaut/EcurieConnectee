@@ -238,19 +238,24 @@ Page {
     Dialog {
         id: stopConfirmDialog
         title: "Confirmer l'arrêt ?"
-        anchors.centerIn: parent
+
+        x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+
         standardButtons: Dialog.Ok | Dialog.Cancel
         Text { text: "Voulez-vous vraiment éteindre le Raspberry Pi ?" }
-        onAccepted: dbManager.systemShutdown() // MODIFIÉ ICI
+        onAccepted: dbManager.systemShutdown()
     }
 
-    // Dialogue de confirmation pour le redémarrage
     Dialog {
         id: restartConfirmDialog
         title: "Confirmer le redémarrage ?"
-        anchors.centerIn: parent
+
+        x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+
         standardButtons: Dialog.Ok | Dialog.Cancel
         Text { text: "Le système va redémarrer immédiatement." }
-        onAccepted: dbManager.systemReboot() // MODIFIÉ ICI
+        onAccepted: dbManager.systemReboot()
     }
 }

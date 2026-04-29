@@ -18,7 +18,8 @@ Page {
 
     Popup {
         id: easterEggPopup
-        anchors.centerIn: parent
+        x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
         width: 400
         height: 400
         modal: true
