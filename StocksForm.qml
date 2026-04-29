@@ -1,7 +1,7 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick 2.11
+import QtQuick.Controls 2.11
 import QtQuick.Layouts 1.15
-import QtCharts 2.15
+import QtCharts 2.11
 
 Page {
     id: pageStocks
