@@ -17,6 +17,10 @@ Page {
             anchors.left: parent.left
             anchors.leftMargin: 10
             anchors.verticalCenter: parent.verticalCenter
+
+            width: 100
+            height: 50
+
             contentItem: Text {
                 text: "◀ Retour"
                 color: "#4b6bfb"
@@ -67,7 +71,7 @@ Page {
                 font.bold: true
                 color: "#7b92b2"
                 font.pixelSize: 12
-                Layout.fillWidth: true
+                Layout.preferredWidth: 220
             }
         }
 
@@ -115,7 +119,7 @@ Page {
                         font.bold: true
                         color: model.peut_manger ? "#f59e0b" : "#10b981"
                         wrapMode: Text.WordWrap
-                        Layout.fillWidth: true
+                        Layout.preferredWidth: 220
                         Layout.alignment: Qt.AlignTop
                     }
                 }
