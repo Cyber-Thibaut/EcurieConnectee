@@ -1,4 +1,4 @@
-QT += core gui qml quick mqtt sql charts network
+QT += core gui qml quick mqtt sql charts network widgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
