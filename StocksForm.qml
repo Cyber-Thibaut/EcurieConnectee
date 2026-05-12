@@ -156,7 +156,7 @@ Page {
                         titleFont.bold: true
                         anchors.fill: parent
                         anchors.margins: 10
-                        antialiasing: true
+                        antialiasing: false
                         legend.alignment: Qt.AlignBottom
                         legend.labelColor: "#4b5563"
                         backgroundColor: "transparent"
