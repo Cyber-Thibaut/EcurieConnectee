@@ -14,7 +14,7 @@ Page {
         function onMessageReceived(topic, message) {
             var timeString = new Date().toLocaleTimeString(Qt.locale("fr_FR"), "HH:mm:ss")
             terminalLog.text += "\n[" + timeString + "] " + topic + "\n➔ " + message + "\n"
-            scrollViewLog.ScrollBar.vertical.position = 1.0
+            scrollViewLog.contentItem.contentY = scrollViewLog.contentItem.contentHeight - scrollViewLog.contentItem.height
         }
     }
 
@@ -57,7 +57,7 @@ Page {
                     text: "Vider"
                     background: Rectangle { color: "transparent"; border.color: "#f87272"; radius: 4; border.width: 1 }
                     contentItem: Text { text: parent.text; color: "#f87272"; font.bold: true }
-                    onClicked: terminalLog.text = "> IP de la machine détectée :" << localIpAddress;
+                    onClicked: terminalLog.text = "> IP de la machine détectée :" + localIpAddress;
                 }
 
                 Button {
@@ -72,7 +72,7 @@ Page {
                 Layout.fillWidth: true; Layout.fillHeight: true; clip: true
                 TextArea {
                     id: terminalLog
-                    text: "IP de la machine détectée :" << localIpAddress;
+                    text: "IP de la machine détectée :" + localIpAddress;
                     color: "#c3e88d"; font.family: "Courier"; font.pixelSize: 13; readOnly: true; background: null
                 }
             }

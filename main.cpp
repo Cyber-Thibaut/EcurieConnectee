@@ -39,6 +39,7 @@ int main(int argc, char *argv[])
     }
 ipFound:
     qDebug() << "[RÉSEAU] IP de la machine détectée :" << localIpAddress;
+                                                              engine.rootContext()->setContextProperty("localIpAddress", localIpAddress);
 
 
                     MqttManager mqttManager;
