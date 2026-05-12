@@ -17,6 +17,8 @@ Page {
             anchors.left: parent.left
             anchors.leftMargin: 10
             anchors.verticalCenter: parent.verticalCenter
+            width: 100
+            height: 50
             contentItem: Text {
                 text: "◀ Retour"
                 color: "#4b6bfb" // Primary
